@@ -6,4 +6,4 @@ services:
       - 1234:1234
       - 8000:8000
     volumes:
-      - .:/python-tdd-book
+      - .:/home/coder/python-tdd-book
