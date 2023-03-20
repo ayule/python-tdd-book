@@ -1,0 +1,9 @@
+services:
+  dev-env:
+    build: .
+    container_name: dev-env
+    ports:
+      - 1234:1234
+      - 8000:8000
+    volumes:
+      - .:/python-tdd-book
