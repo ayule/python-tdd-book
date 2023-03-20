@@ -12,7 +12,7 @@ class NewVisitorTest(unittest.TestCase):
         self.browser = webdriver.Firefox(options=opts)
 
     def tearDown(self):
-        return
+        self.browser.quit()
 
     def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id("id_list_table")
