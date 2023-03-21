@@ -86,8 +86,15 @@ USER $USERNAME
 
 WORKDIR /home/$USERNAME/python-tdd-book
 
-COPY ./requirements.txt ./
+COPY requirements.txt .
 
+# Install requirements
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Create the superlists project so that there will be a test server to run
+RUN ../.local/lib/python3.7/site-packages/django/bin/django-admin.py startproject superlists .
+
+# Copy host's project files to container's project folder so that latest version of test server will run
+COPY . .
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
