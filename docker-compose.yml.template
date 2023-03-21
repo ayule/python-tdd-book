@@ -1,0 +1,14 @@
+services:
+  dev-env:
+    build: 
+      context: .
+      args:
+        USERNAME: {{USER}}
+        USER_UID: {{UID}}
+        USER_GID: {{GID}}
+    container_name: dev-env
+    ports:
+      - 1234:1234
+      - 8000:8000
+    volumes:
+      - .:/home/{{USER}}/python-tdd-book
