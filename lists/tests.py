@@ -1,15 +1,15 @@
-from django.test import TestCase
 from lists.models import Item, List
+from django.test import TestCase
 
 
 class HomePageTest(TestCase):
-    def test_uses_home_template(self):
+    def test_home_template(self):
         response = self.client.get("/")
         self.assertTemplateUsed(response, "home.html")
 
 
 class ListAndItemModelTest(TestCase):
-    def test_saving_and_retreiving_items(self):
+    def test_saving_and_retrieving_items(self):
         list_ = List()
         list_.save()
 
@@ -47,6 +47,7 @@ class ListViewTest(TestCase):
         correct_list = List.objects.create()
         Item.objects.create(text="itemey 1", list=correct_list)
         Item.objects.create(text="itemey 2", list=correct_list)
+
         other_list = List.objects.create()
         Item.objects.create(text="other list item 1", list=other_list)
         Item.objects.create(text="other list item 2", list=other_list)

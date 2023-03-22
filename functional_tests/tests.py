@@ -1,16 +1,19 @@
-import os
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
 from selenium.webdriver.common.keys import Keys
 import time
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.common.exceptions import WebDriverException
+import os
 
 MAX_WAIT = 10
 
 
 class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        opts = FirefoxOptions()
+        opts.add_argument("--headless")
+        self.browser = webdriver.Firefox(options=opts)
         staging_server = os.environ.get("STAGING_SERVER")
         if staging_server:
             self.live_server_url = "http://" + staging_server
@@ -78,14 +81,16 @@ class NewVisitorTest(StaticLiveServerTestCase):
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, "/lists/.+")
 
-        # Now a new user, Franis, comes along to the site
+        # Now a new user, Francis, comes along to the site.
 
-        ## We use a new browser session to make sure no information
+        ## We use a new browser session to make sure that no information
         ## of Edith's is coming through from cookies etc
         self.browser.quit()
-        self.browser = webdriver.Firefox()
+        opts = FirefoxOptions()
+        opts.add_argument("--headless")
+        self.browser = webdriver.Firefox(options=opts)
 
-        # Francis visits the home page. There is no sign of Edith's
+        # Francis visits the home page.  There is no sign of Edith's
         # list
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name("body").text
@@ -94,7 +99,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # Francis starts a new list by entering a new item. He
         # is less interesting than Edith...
-        self.browser.get(self.live_server_url)
         inputbox = self.browser.find_element_by_id("id_new_item")
         inputbox.send_keys("Buy milk")
         inputbox.send_keys(Keys.ENTER)
@@ -103,7 +107,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # Francis gets his own unique URL
         francis_list_url = self.browser.current_url
         self.assertRegex(francis_list_url, "/lists/.+")
-        self.assertNotEquals(francis_list_url, edith_list_url)
+        self.assertNotEqual(francis_list_url, edith_list_url)
 
         # Again, there is no trace of Edith's list
         page_text = self.browser.find_element_by_tag_name("body").text
