@@ -2,4 +2,3 @@ django < 1.12
 selenium < 4
 gunicorn
 black
-python-dotenv
