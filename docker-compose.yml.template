@@ -12,3 +12,4 @@ services:
       - 8000:8000
     volumes:
       - .:/home/{{USER}}/python-tdd-book
+      - /home/{{USER}}/.ssh:/home/{{USER}}/.ssh
