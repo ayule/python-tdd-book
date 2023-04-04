@@ -2,6 +2,9 @@ import os
 import random
 from fabric.contrib.files import append, exists
 from fabric.api import cd, env, local, run
+from dotenv import load_dotenv
+
+load_dotenv()
 
 REPO_URL = "https://github.com/ayule/python-tdd-book.git"
 
